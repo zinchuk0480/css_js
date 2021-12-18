@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+
+<style>
+
+.input__input-phone{
+	margin: 30px;
+	font-size: 2rem;
+	padding: 5px 15px;
+	border-radius: 7px;
+	border-color: #ccc;
+	color: #888;
+}
+.input-phone-number__input{
+	display: flex;
+	flex-flow: column wrap;
+	text-align: center;
+}
+
+.input-phone-number__link{
+	margin: 0 auto;	
+}
+.input-phone-number__btn{
+	position: relative;
+	height: 50px;
+	padding: 5px 15px;
+	border: 1px solid #ccc;
+	color: #000;
+	background-color: transparent;
+	overflow: hidden;
+	cursor: pointer;
+	transition: color .3s;
+}
+
+
+.input-phone-number__btn_color-black{
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 160%;
+	height: 200%;
+	background-color: #000;
+	border-radius: 50%;
+	z-index: -5;
+	transition: top .3s;
+}
+.input-phone-number__btn_color-yellow{
+	position: absolute;
+	top: 0%;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #ff5;
+	z-index: -10;
+	transition: top 0.3s;
+}
+.input-phone-number__btn:hover{
+	color: #fff;
+}
+.input-phone-number__btn:hover .input-phone-number__btn_color-black{
+	top: -50%;
+	transition: top .3s;
+}
+.input-phone-number__btn:hover .input-phone-number__btn_color-yellow{
+	top: -100%;
+	transition: top .3s;
+}
+
+
+</style>
+
+
+<div class="input-phone-number">
+	<div class="input-phone-number__input">
+		<input class="input__input-phone" type="tel" name="nameles" autofocus>
+		<a class="input-phone-number__link" href="#" target="_blank">
+			<button class="input-phone-number__btn">
+				Кнопка с заливкой снизу
+				<div class="input-phone-number__btn_color-black"></div>
+				<div class="input-phone-number__btn_color-yellow"></div>
+			</button>
+		</a>
+	</div>
+
+</div>
+
+
+<script>
+	
+
+document.addEventListener('DOMContentLoaded', function(){
+
+
+let inputPhone = document.querySelectorAll('.input__input-phone')
+
+
+let input = inputPhone.forEach(e => {
+	e.addEventListener('input', (e) => {
+	onlyNum = e.target.value.replace(/\D/g, '')
+	formatedString = ' '
+	selectionStart = e.target.selectionStart
+
+
+
+	if (e.target.value.length != selectionStart){
+		if (e.data && /\D/g.test(e.data)){
+			e.target.value = onlyNum;
+		}
+		return;
+	}
+
+	if(['7','8','9'].indexOf(onlyNum[0]) > -1){
+		if (onlyNum[0] == '9') onlyNum = '7' + onlyNum
+		let firstSymbol = (onlyNum[0] == '8') ? '8' : '+7'
+		formatedString = firstSymbol + ' '
+		if (onlyNum.length > 1){
+			formatedString += '(' + onlyNum.substring(1, 4)
+		}
+		if (onlyNum.length >= 5){
+			formatedString += ')' + onlyNum.substring(4, 7)
+		}
+		if (onlyNum.length >= 8){
+			formatedString += '-' + onlyNum.substring(7, 9)
+		}
+		if (onlyNum.length >= 10){
+			formatedString += '-' + onlyNum.substring(9, 11)
+		} 
+	} else {
+		formatedString = '+' + onlyNum.substring(0, 16)
+	}
+
+	e.target.value = formatedString
+	})
+
+	function shit(e){
+		if (e.keyCode == 8 && onlyNum.length == 2){
+			console.log(' ху ')
+			e.target.value = '';
+		}
+	}
+
+	for (let i = 0; i < inputPhone.length; i++) {
+		let inp = inputPhone[i];
+		inp.addEventListener("keydown", shit)
+	}
+
+	
+})
+
+
+
+})
+
+</script>
+
+
+</body>
+</html>
